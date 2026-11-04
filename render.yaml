@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: salary-management-api
+    runtime: docker
+    rootDir: backend
+    healthCheckPath: /up
+    envVars:
+      - key: SECRET_KEY_BASE
+        generateValue: true
+      - key: DATABASE_PATH
+        value: /data/production.sqlite3
+      - key: CORS_ORIGINS
+        sync: false
+    disk:
+      name: sqlite-data
+      mountPath: /data
+      sizeGB: 1
+
+  - type: web
+    name: salary-management-ui
+    runtime: static
+    rootDir: frontend
+    buildCommand: npm ci && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_URL
+        sync: false
