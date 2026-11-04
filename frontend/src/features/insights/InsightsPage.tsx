@@ -93,7 +93,10 @@ const CountryDetail = ({ country }: { country: string }) => {
         <StatCard label="Headcount" value={formatNumber(data.headcount)} />
         <StatCard label="Median salary" value={money(data.median_salary)} />
         <StatCard label="Average salary" value={money(data.avg_salary)} />
-        <StatCard label="Range" value={formatMoney(data.max_salary, data.currency, { compact: true })} hint={`from ${money(data.min_salary)}`} />
+        <StatCard
+          label="Salary range"
+          value={`${formatMoney(data.min_salary, data.currency, { compact: true })} – ${formatMoney(data.max_salary, data.currency, { compact: true })}`}
+        />
       </SimpleGrid>
       <Card withBorder padding="md">
         <Tabs defaultValue="job_title">
