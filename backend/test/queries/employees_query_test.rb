@@ -18,39 +18,39 @@ class EmployeesQueryTest < ActiveSupport::TestCase
   end
 
   test "filters by country, department and job title together" do
-    result = EmployeesQuery.new(country: "United States", department: "Engineering",
-                                job_title: "Software Engineer").call
+    result = EmployeesQuery.new({ country: "United States", department: "Engineering",
+                                job_title: "Software Engineer" }).call
 
     assert_equal [@chloe], result.records
   end
 
   test "ignores blank filters" do
-    assert_equal 3, EmployeesQuery.new(country: "", department: nil).call.total
+    assert_equal 3, EmployeesQuery.new({ country: "", department: nil }).call.total
   end
 
   test "searches name and email case-insensitively" do
-    assert_equal [@ben], EmployeesQuery.new(q: "CARTER").call.records
-    assert_equal [@chloe], EmployeesQuery.new(q: "chloe@").call.records
+    assert_equal [@ben], EmployeesQuery.new({ q: "CARTER" }).call.records
+    assert_equal [@chloe], EmployeesQuery.new({ q: "chloe@" }).call.records
   end
 
   test "treats LIKE wildcards in the search term literally" do
-    assert_empty EmployeesQuery.new(q: "%").call.records
+    assert_empty EmployeesQuery.new({ q: "%" }).call.records
   end
 
   test "sorts by an allowed column and direction" do
-    result = EmployeesQuery.new(sort: "salary", direction: "desc").call
+    result = EmployeesQuery.new({ sort: "salary", direction: "desc" }).call
 
     assert_equal [@asha, @chloe, @ben], result.records
   end
 
   test "falls back to the default sort for unknown columns" do
-    result = EmployeesQuery.new(sort: "id; DROP TABLE employees", direction: "sideways").call
+    result = EmployeesQuery.new({ sort: "id; DROP TABLE employees", direction: "sideways" }).call
 
     assert_equal [@asha, @ben, @chloe], result.records
   end
 
   test "paginates and reports totals" do
-    result = EmployeesQuery.new(page: 2, per_page: 2).call
+    result = EmployeesQuery.new({ page: 2, per_page: 2 }).call
 
     assert_equal [@chloe], result.records
     assert_equal 3, result.total
@@ -58,7 +58,7 @@ class EmployeesQueryTest < ActiveSupport::TestCase
   end
 
   test "clamps page and per_page to sane values" do
-    result = EmployeesQuery.new(page: -5, per_page: 10_000).call
+    result = EmployeesQuery.new({ page: -5, per_page: 10_000 }).call
 
     assert_equal 1, result.page
     assert_equal EmployeesQuery::MAX_PER_PAGE, result.per_page
