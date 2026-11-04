@@ -22,7 +22,7 @@ product and design decisions; the assistant drafted code, which was then reviewe
   and map 422 field errors from Rails back onto the form."
 
 ## Where AI output was corrected
-- SQLite `LIKE` ignores `\` escapes without an explicit `ESCAPE` clause — caught by the wildcard test
+- SQLite `LIKE` ignores `\` escapes without an explicit `ESCAPE` clause — caught in code review (a wildcard test now guards it)
   and fixed in a follow-up commit.
 - Insights "Range" card initially showed only the max; changed to `min – max` after visual review.
 - An AI-suggested jsdom polyfill for `getComputedStyle` recursed into itself; removed.
