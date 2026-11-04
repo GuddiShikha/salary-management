@@ -40,7 +40,8 @@ class EmployeesQuery
     return scope if term.empty?
 
     pattern = "%#{Employee.sanitize_sql_like(term.downcase)}%"
-    scope.where("LOWER(full_name) LIKE :pattern OR email LIKE :pattern", pattern: pattern)
+    scope.where("LOWER(full_name) LIKE :pattern ESCAPE '\\' OR email LIKE :pattern ESCAPE '\\'",
+                pattern: pattern)
   end
 
   def page
