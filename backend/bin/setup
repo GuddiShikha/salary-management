@@ -3,5 +3,5 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 bundle install
-bin/rails db:prepare
-bin/rails db:seed
+bin/rails db:prepare   # creates + seeds a new DB
+bin/rails runner 'EmployeeSeeder.new.call if Employee.none?'

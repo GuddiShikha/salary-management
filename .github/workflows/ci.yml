@@ -15,7 +15,8 @@ jobs:
           ruby-version: "3.3"
           bundler-cache: true
           working-directory: backend
-      - run: bin/rails db:prepare
+      # schema:load, not db:prepare: prepare seeds a freshly created DB, which pollutes tests.
+      - run: bin/rails db:schema:load
         env: { RAILS_ENV: test }
       - run: bin/rails test
 
